@@ -108,7 +108,7 @@
     </div>
     <div class="about-copy">
       <p class="lead">I am a third-year BSIT student at City College of Calamba with hands-on experience in IT Support.</p>
-      <p>Since 2024, I have worked as an IT Support assigned through the SPES Calamba program, helping in different offices. I have also created websites and graphic designs for previous projects. I am currently the back-end developer for my capstone project, and I am working toward a career in back-end web development and graphic design.</p>
+      <p>Since 2024, I have worked as an IT Support assigned through the SPES Calamba program, helping in different offices. I have also created websites and graphic designs for previous projects. I currently serve as a back-end developer for a project in my Software Engineering course, while working toward a career in back-end web development and graphic design.</p>
       <div class="facts-grid">
         <div><span>LOCATION</span><strong>Calamba, Laguna, Philippines</strong></div>
         <div><span>EMAIL</span><strong><a href="mailto:rhuztin2006@gmail.com">rhuztin2006@gmail.com</a></strong></div>
@@ -180,9 +180,9 @@
       <div class="timeline-date">CURRENT</div>
       <div class="timeline-marker"></div>
       <div class="timeline-content">
-        <p class="eyebrow">CAPSTONE PROJECT</p>
+        <p class="eyebrow">SOFTWARE ENGINEERING COURSE PROJECT</p>
         <h3>Back-End Developer</h3>
-        <p>Developing the back end of my current capstone project as part of my BSIT studies.</p>
+        <p>Developing the project’s back end for my Software Engineering course.</p>
       </div>
     </article>
     <article class="timeline-item">
@@ -235,6 +235,15 @@
         <span class="edu-detail">Third-year student</span>
       </div>
     </article>
+    <article class="education-card">
+      <span class="edu-year">2026</span>
+      <div>
+        <p class="eyebrow">CERTIFICATION</p>
+        <h3>Computer Systems Servicing NC II</h3>
+        <p>Certificate acquired in 2026</p>
+        <span class="edu-detail">Technical certification</span>
+      </div>
+    </article>
     <article class="education-card cv-card">
       <span class="cv-icon">↓</span>
       <div>
@@ -258,16 +267,16 @@
             <p>I’m always up for a thoughtful conversation, a new challenge, or a chance to make something useful together.</p>
             <a class="contact-email" href="mailto:rhuztin2006@gmail.com">rhuztin2006@gmail.com <span>↗</span></a>
             <div class="social-links">
-              <a href="https://www.linkedin.com/" target="_blank" rel="noopener">LinkedIn ↗</a>
-              <a href="https://github.com/" target="_blank" rel="noopener">GitHub ↗</a>
+              <a href="https://www.facebook.com/handsomerhuz?mibextid=wwXIfr&amp;rdid=da6cW8B48UGMz7MO&amp;share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F19YXBNkRjc%2F%3Fmibextid%3DwwXIfr" target="_blank" rel="noopener noreferrer">Facebook ↗</a>
+              <a href="https://github.com/rhuzGG" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
             </div>
           </div>
           <form class="contact-form" id="contact-form">
             <p class="form-heading">SEND A NOTE <span>✳</span></p>
             <label for="contact-name">Your name</label>
-            <input id="contact-name" name="name" autocomplete="name" required maxlength="100" placeholder="Jane Smith">
+            <input id="contact-name" name="name" autocomplete="name" required maxlength="100" placeholder="Your name">
             <label for="contact-email">Email address</label>
-            <input id="contact-email" name="email" type="email" autocomplete="email" required maxlength="254" placeholder="jane@example.com">
+            <input id="contact-email" name="email" type="email" autocomplete="email" required maxlength="254" placeholder="example@gmail.com">
             <label for="contact-subject">Subject</label>
             <input id="contact-subject" name="subject" required maxlength="120" placeholder="A little about your message">
             <label for="contact-message">Message</label>
@@ -293,7 +302,28 @@
       <a class="back-top" href="#home">BACK TO TOP ↑</a>
     </footer>
 
-    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+      <dialog class="artwork-dialog" id="artwork-dialog" aria-labelledby="artwork-title">
+        <div class="artwork-viewer">
+          <header class="artwork-viewer-header">
+            <div>
+              <p class="eyebrow">PROJECT ARTWORK</p>
+              <h2 id="artwork-title"></h2>
+            </div>
+            <div class="artwork-viewer-actions">
+              <span id="artwork-counter" aria-live="polite"></span>
+              <button class="viewer-close" type="button" aria-label="Close artwork viewer">×</button>
+            </div>
+          </header>
+          <div class="artwork-viewer-stage">
+            <button class="viewer-arrow" id="artwork-previous" type="button" aria-label="Previous artwork">←</button>
+            <div class="artwork-media" id="artwork-media"></div>
+            <button class="viewer-arrow" id="artwork-next" type="button" aria-label="Next artwork">→</button>
+          </div>
+          <div class="artwork-thumbnails" id="artwork-thumbnails" aria-label="Choose a Sora logo variation"></div>
+          <p class="viewer-hint">Use the arrow keys to browse. Press Escape to close.</p>
+        </div>
+      </dialog>
+      <div class="toast" id="toast" role="status" aria-live="polite"></div>
     <script src="js/projects.js"></script>
     <script src="js/app.js"></script>
   </body>

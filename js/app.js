@@ -19,7 +19,7 @@
       'aria-label',
       isLight ? 'Switch to dark mode' : 'Switch to light mode'
     );
-    themeIcon.textContent = isLight ? 'â˜¾' : 'â˜¼';
+    themeIcon.textContent = isLight ? '\u263E' : '\u263C';
   }
 
   setTheme(root.dataset.theme || 'dark');
@@ -108,6 +108,7 @@
         project.solution,
         ...(project.keywords || []),
         ...(project.technologies || []),
+        ...(project.tools || []),
         ...(project.features || []),
       ]
         .filter(Boolean)
@@ -129,16 +130,30 @@
         ]
           .map((tag) => `<span>${escapeHtml(tag)}</span>`)
           .join('');
-        const artwork = project.images?.length
-          ? `<div class="project-image-grid">${project.images
-              .map(
-                (image) =>
-                  `<img class="project-image" src="${escapeHtml(image.src)}" alt="${escapeHtml(image.alt)}" loading="lazy">`
-              )
-              .join('')}</div>`
+        const projectTools = project.tools?.length
+          ? `<div class="project-tools-used"><span class="project-tools-label">TOOLS</span><div class="tags">${project.tools
+              .map((tool) => `<span>${escapeHtml(tool)}</span>`)
+              .join('')}</div></div>`
+          : '';
+        const artworkImages = project.images?.length
+          ? project.images
           : project.image
-            ? `<img class="project-image" src="${escapeHtml(project.image)}" alt="${escapeHtml(project.imageAlt || project.name)}" loading="lazy">`
+            ? [{ src: project.image, alt: project.imageAlt || project.name }]
+            : [];
+        const renderPreview = (image) =>
+          image.type === 'pdf'
+            ? `<iframe class="project-pdf-preview" src="${escapeHtml(image.src)}#toolbar=0&navpanes=0&scrollbar=0&view=Fit" title="${escapeHtml(image.alt)}" loading="lazy"></iframe>`
+            : `<img class="project-image" src="${escapeHtml(image.src)}" alt="" loading="lazy">`;
+        const artwork = artworkImages.length > 1
+          ? `<div class="project-marquee" aria-hidden="true"><div class="project-image-track">${[...artworkImages, ...artworkImages]
+              .map((image) => `<div class="project-marquee-item">${renderPreview(image)}</div>`)
+              .join('')}</div></div>`
+          : artworkImages.length === 1
+            ? renderPreview(artworkImages[0])
             : '<span class="project-shape" aria-hidden="true"></span>';
+        const viewTrigger = artworkImages.length
+          ? `<button class="project-view-trigger" type="button" data-project-id="${escapeHtml(project.id)}" aria-label="View ${escapeHtml(project.name)} artwork full screen"></button>`
+          : '';
         const year = project.year
           ? `<span class="project-year">${escapeHtml(project.year)}</span>`
           : '';
@@ -160,11 +175,13 @@
               </div>
               <h3>${escapeHtml(project.name)}</h3>
               <p>${escapeHtml(project.description)}</p>
+              ${projectTools}
               <div class="project-foot">
                 <div class="tags">${projectTags}</div>
                 ${projectLink}
               </div>
             </div>
+            ${viewTrigger}
           </article>
         `;
       })
@@ -178,6 +195,76 @@
 
   projectSearch.addEventListener('input', renderProjects);
   renderProjects();
+
+  const artworkDialog = document.getElementById('artwork-dialog');
+  const artworkTitle = document.getElementById('artwork-title');
+  const artworkCounter = document.getElementById('artwork-counter');
+  const artworkMedia = document.getElementById('artwork-media');
+  const artworkThumbnails = document.getElementById('artwork-thumbnails');
+  const previousArtwork = document.getElementById('artwork-previous');
+  const nextArtwork = document.getElementById('artwork-next');
+  const closeArtwork = document.querySelector('.viewer-close');
+  closeArtwork.textContent = '\u00D7';
+  previousArtwork.textContent = '\u2190';
+  nextArtwork.textContent = '\u2192';
+  let currentArtwork = [];
+  let currentArtworkIndex = 0;
+
+  function displayArtwork(index) {
+    currentArtworkIndex = (index + currentArtwork.length) % currentArtwork.length;
+    const image = currentArtwork[currentArtworkIndex];
+    artworkMedia.innerHTML = image.type === 'pdf'
+      ? `<iframe class="artwork-pdf" src="${escapeHtml(image.src)}#toolbar=1&navpanes=0" title="${escapeHtml(image.alt)}"></iframe>`
+      : `<img id="artwork-image" src="${escapeHtml(image.src)}" alt="${escapeHtml(image.alt)}">`;
+    artworkCounter.textContent = `${currentArtworkIndex + 1} / ${currentArtwork.length}`;
+    artworkThumbnails.innerHTML = currentArtwork
+      .map(
+        (thumbnail, thumbnailIndex) => `
+          <button class="artwork-thumbnail" type="button" data-artwork-index="${thumbnailIndex}"
+            aria-label="View image ${thumbnailIndex + 1} of ${currentArtwork.length}"
+            aria-current="${thumbnailIndex === currentArtworkIndex}">
+            ${thumbnail.type === 'pdf' ? '<span>PDF</span>' : `<img src="${escapeHtml(thumbnail.src)}" alt="" loading="lazy">`}
+          </button>
+        `
+      )
+      .join('');
+    previousArtwork.disabled = currentArtwork.length < 2;
+    nextArtwork.disabled = currentArtwork.length < 2;
+    artworkThumbnails.hidden = currentArtwork.length < 2;
+  }
+
+  projectGrid.addEventListener('click', (event) => {
+    const trigger = event.target.closest('.project-view-trigger');
+    if (!trigger) return;
+    const project = projects.find((item) => item.id === trigger.dataset.projectId);
+    if (!project) return;
+
+    currentArtwork = project.images?.length
+      ? project.images
+      : [{ src: project.image, alt: project.imageAlt || project.name }];
+    artworkTitle.textContent = project.name;
+    displayArtwork(0);
+    artworkDialog.showModal();
+  });
+
+  previousArtwork.addEventListener('click', () => displayArtwork(currentArtworkIndex - 1));
+  nextArtwork.addEventListener('click', () => displayArtwork(currentArtworkIndex + 1));
+  closeArtwork.addEventListener('click', () => artworkDialog.close());
+  artworkThumbnails.addEventListener('click', (event) => {
+    const thumbnail = event.target.closest('[data-artwork-index]');
+    if (thumbnail) displayArtwork(Number(thumbnail.dataset.artworkIndex));
+  });
+  artworkDialog.addEventListener('click', (event) => {
+    if (event.target === artworkDialog) artworkDialog.close();
+  });
+  artworkDialog.addEventListener('keydown', (event) => {
+    if (event.key === 'ArrowLeft' && currentArtwork.length > 1) {
+      displayArtwork(currentArtworkIndex - 1);
+    }
+    if (event.key === 'ArrowRight' && currentArtwork.length > 1) {
+      displayArtwork(currentArtworkIndex + 1);
+    }
+  });
   const contactForm = document.getElementById('contact-form');
   const toast = document.getElementById('toast');
   let toastTimer;
