@@ -1,4 +1,4 @@
-﻿(() => {
+(() => {
   const root = document.documentElement;
   const menu = document.querySelector('.menu-toggle');
   const nav = document.querySelector('.nav');
@@ -172,28 +172,55 @@
     toastTimer = setTimeout(() => toast.classList.remove('visible'), 4500);
   }
 
-  contactForm.addEventListener('submit', (event) => {
+  contactForm.addEventListener('submit', async (event) => {
     event.preventDefault();
 
     const formData = new FormData(contactForm);
     if (formData.get('website')) return;
 
     const recipient = 'rhuztin2006@gmail.com';
-    if (!recipient) {
-      showToast('Email is not configured yet.');
-      return;
-    }
-
+    const serviceId = 'service_31e8vqg';
+    const templateId = 'template_u46vf2h';
+    const publicKey = 'lkZF2Gzm6auXH5Hjl';
+    const name = String(formData.get('name')).slice(0, 100);
+    const email = String(formData.get('email')).slice(0, 254);
     const subject = String(formData.get('subject')).slice(0, 120);
-    const body = [
-      `Name: ${String(formData.get('name')).slice(0, 100)}`,
-      `Reply to: ${String(formData.get('email')).slice(0, 254)}`,
-      '',
-      String(formData.get('message')).slice(0, 2000),
-    ].join('\n');
+    const message = String(formData.get('message')).slice(0, 2000);
+    const body = [`Name: ${name}`, `Reply to: ${email}`, '', message].join('\n');
+    const submitButton = contactForm.querySelector('button[type="submit"]');
+    submitButton.disabled = true;
 
-    window.location.href = `mailto:${encodeURIComponent(recipient)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    showToast('Your email app should open with a drafted message.');
+    try {
+      const response = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify({
+          service_id: serviceId,
+          template_id: templateId,
+          user_id: publicKey,
+          template_params: {
+            name,
+            email,
+            subject,
+            title: subject,
+            message,
+          },
+        }),
+      });
+
+      if (!response.ok) throw new Error('EmailJS could not send the message.');
+
+      contactForm.reset();
+      showToast('Your message was sent successfully.');
+    } catch {
+      showToast('Direct sending failed. Opening an email draft instead.');
+      window.location.href = `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    } finally {
+      submitButton.disabled = false;
+    }
   });
 })();
 
