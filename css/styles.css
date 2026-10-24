@@ -650,7 +650,15 @@ button {
   display: grid;
   place-items: center
 }
-.project-art:before {
+.project-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 16px;
+  object-fit: contain;
+  position: relative;
+  z-index: 1;
+}.project-art:before {
   content: "";
   position: absolute;
   inset: 0;
@@ -1311,4 +1319,24 @@ button {
     min-width: 0;
     overflow-wrap: anywhere;
   }
+}
+
+.project-image-grid {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  padding: 14px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.project-image-grid .project-image {
+  min-width: 0;
+  min-height: 0;
+  padding: 4px;
+  background: #fff;
+  border-radius: 4px;
 }
