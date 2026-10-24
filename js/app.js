@@ -1,4 +1,4 @@
-(() => {
+﻿(() => {
   const root = document.documentElement;
   const menu = document.querySelector('.menu-toggle');
   const nav = document.querySelector('.nav');
@@ -19,7 +19,7 @@
       'aria-label',
       isLight ? 'Switch to dark mode' : 'Switch to light mode'
     );
-    themeIcon.textContent = isLight ? '☾' : '☼';
+    themeIcon.textContent = isLight ? 'â˜¾' : 'â˜¼';
   }
 
   setTheme(root.dataset.theme || 'dark');
@@ -53,21 +53,18 @@
   const resultCount = document.getElementById('result-count');
   const emptyState = document.getElementById('empty-state');
   const projects = window.PORTFOLIO_PROJECTS || [];
-  const categories = [
-    'All',
-    ...new Set(projects.map((project) => project.category)),
-  ];
-  let activeCategory = 'All';
+  const terms = ['All', 'Prelim', 'Midterm'];
+  let activeTerm = 'All';
 
-  categories.forEach((category) => {
+  terms.forEach((term) => {
     const button = document.createElement('button');
     button.type = 'button';
     button.className = 'filter-button';
-    button.textContent = category;
-    button.setAttribute('aria-pressed', String(category === activeCategory));
+    button.textContent = term;
+    button.setAttribute('aria-pressed', String(term === activeTerm));
 
     button.addEventListener('click', () => {
-      activeCategory = category;
+      activeTerm = term;
 
       projectFilters.querySelectorAll('button').forEach((filter) => {
         filter.setAttribute('aria-pressed', String(filter === button));
@@ -96,54 +93,75 @@
   function renderProjects() {
     const searchTerm = projectSearch.value.trim().toLowerCase();
     const matchingProjects = projects.filter((project) => {
-      const matchesCategory =
-        activeCategory === 'All' || project.category === activeCategory;
+      const matchesTerm = activeTerm === 'All' || project.term === activeTerm;
       const searchableText = [
         project.name,
+        project.term,
+        project.activity,
         project.category,
         project.type,
         project.year,
         project.role,
         project.description,
-        ...project.technologies,
+        project.overview,
+        project.problem,
+        project.solution,
+        ...(project.keywords || []),
+        ...(project.technologies || []),
+        ...(project.features || []),
       ]
+        .filter(Boolean)
         .join(' ')
         .toLowerCase();
 
-      return matchesCategory && searchableText.includes(searchTerm);
+      return matchesTerm && searchableText.includes(searchTerm);
     });
 
     projectGrid.innerHTML = matchingProjects
       .map((project) => {
         const color = escapeHtml(project.color || '#e34224');
         const projectLink = project.projectUrl
-          ? `<a class="project-link" href="${escapeHtml(project.projectUrl)}" target="_blank" rel="noopener">Project ↗</a>`
+          ? `<a class="project-link" href="${escapeHtml(project.projectUrl)}" target="_blank" rel="noopener">Project â†—</a>`
           : '';
-        const technologyTags = project.technologies
-          .map((technology) => `<span>${escapeHtml(technology)}</span>`)
+        const projectTags = [
+          ...(project.keywords || []),
+          ...(project.technologies || []),
+        ]
+          .map((tag) => `<span>${escapeHtml(tag)}</span>`)
           .join('');
+        const artwork = project.images?.length
+          ? `<div class="project-image-grid">${project.images
+              .map(
+                (image) =>
+                  `<img class="project-image" src="${escapeHtml(image.src)}" alt="${escapeHtml(image.alt)}" loading="lazy">`
+              )
+              .join('')}</div>`
+          : project.image
+            ? `<img class="project-image" src="${escapeHtml(project.image)}" alt="${escapeHtml(project.imageAlt || project.name)}" loading="lazy">`
+            : '<span class="project-shape" aria-hidden="true"></span>';
+        const year = project.year
+          ? `<span class="project-year">${escapeHtml(project.year)}</span>`
+          : '';
 
         return `
           <article class="project-card">
             <div
               class="project-art"
               style="--art-color: ${color}; --art-bg: color-mix(in srgb, ${color} 12%, var(--bg))"
-              role="img"
-              aria-label="Abstract graphic for ${escapeHtml(project.name)}"
             >
-              <span class="project-shape"></span>
-              <span class="project-art-label">${escapeHtml(project.category)} · ${escapeHtml(project.status)}</span>
-              <span class="project-year">${escapeHtml(project.year)}</span>
+              ${artwork}
+              <span class="project-art-label">${escapeHtml(project.activity)} Â· ${escapeHtml(project.term)}</span>
+              ${year}
             </div>
             <div class="project-info">
               <div class="project-meta">
                 <span>${escapeHtml(project.category.toUpperCase())} / ${escapeHtml(project.type.toUpperCase())}</span>
-                <span>${escapeHtml(project.role)}</span>
+                <span>${escapeHtml(project.term.toUpperCase())}</span>
               </div>
               <h3>${escapeHtml(project.name)}</h3>
               <p>${escapeHtml(project.description)}</p>
               <div class="project-foot">
-                <div class="tags">${technologyTags}</div>
+                <div class="tags">${projectTags}</div>
                 ${projectLink}
               </div>
             </div>
@@ -154,13 +172,12 @@
 
     resultCount.textContent = `${matchingProjects.length} PROJECT${
       matchingProjects.length === 1 ? '' : 'S'
-    } · SEARCH BY TITLE, TECHNOLOGY, CATEGORY, TYPE, OR YEAR`;
+    } FOUND`;
     emptyState.hidden = matchingProjects.length > 0;
   }
 
   projectSearch.addEventListener('input', renderProjects);
   renderProjects();
-
   const contactForm = document.getElementById('contact-form');
   const toast = document.getElementById('toast');
   let toastTimer;
@@ -223,6 +240,7 @@
     }
   });
 })();
+
 
 
 
