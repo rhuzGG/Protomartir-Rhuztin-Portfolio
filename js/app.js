@@ -53,7 +53,7 @@
   const resultCount = document.getElementById('result-count');
   const emptyState = document.getElementById('empty-state');
   const projects = window.PORTFOLIO_PROJECTS || [];
-  const terms = ['All', 'Prelim', 'Midterm'];
+  const terms = ['All', 'Prelim', 'Midterm', 'Final'];
   let activeTerm = 'All';
 
   terms.forEach((term) => {
@@ -143,7 +143,7 @@
         const renderPreview = (image) =>
           image.type === 'pdf'
             ? `<iframe class="project-pdf-preview" src="${escapeHtml(image.src)}#toolbar=0&navpanes=0&scrollbar=0&view=Fit" title="${escapeHtml(image.alt)}" loading="lazy"></iframe>`
-            : `<img class="project-image" src="${escapeHtml(image.src)}" alt="" loading="lazy">`;
+            : `<img class="project-image" src="${escapeHtml(image.src)}" alt="" loading="lazy" decoding="async">`;
         const artwork = artworkImages.length > 1
           ? `<div class="project-marquee" aria-hidden="true"><div class="project-image-track">${[...artworkImages, ...artworkImages]
               .map((image) => `<div class="project-marquee-item">${renderPreview(image)}</div>`)

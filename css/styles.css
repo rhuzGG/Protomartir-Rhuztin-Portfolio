@@ -115,7 +115,8 @@ button {
   height: 34px;
   border: 1px solid var(--line);
   border-radius: 50%;
-  font-size: 18px
+  font-size: 18px;
+  font-family: Arial, sans-serif
 }
 .theme-toggle:hover {
   color: var(--red);
@@ -216,7 +217,9 @@ button {
 }
 .button span {
   font-size: 17px;
-  line-height: 1
+  line-height: 1;
+  font-family: Arial, sans-serif;
+  font-weight: 600
 }
 .button:hover {
   transform: translateY(-2px)
@@ -350,7 +353,8 @@ button {
 }
 .caption-arrow {
   color: var(--red);
-  font-size: 20px
+  font-size: 20px;
+  font-family: Arial, sans-serif
 }
 .scroll-cue {
   position: absolute;
@@ -489,7 +493,7 @@ button {
 }
 .group-icon {
   color: var(--red);
-  font: 22px var(--display)
+  font: 22px Arial, sans-serif
 }
 .skill-group h3,.timeline-content h3,.education-card h3 {
   font: 500 22px var(--display);
@@ -816,7 +820,8 @@ button {
   height: 47px;
   border: 1px solid var(--red);
   color: var(--red);
-  font-size: 22px
+  font-size: 22px;
+  font-family: Arial, sans-serif
 }
 .cv-card h3 {
   margin-top: 5px
@@ -879,7 +884,8 @@ button {
   padding-bottom: 5px
 }
 .contact-email span {
-  color: var(--red)
+  color: var(--red);
+  font-family: Arial, sans-serif
 }
 .social-links {
   display: flex;
@@ -1359,6 +1365,10 @@ button {
   background: #fff;
 }
 
+.project-marquee-item iframe {
+  pointer-events: none;
+}
+
 .project-art > .project-image,
 .project-art > .project-pdf-preview {
   position: absolute;
@@ -1426,7 +1436,7 @@ button {
 .artwork-viewer-actions, #artwork-counter, .viewer-hint { color: var(--muted); font: 10px var(--mono); }
 .viewer-close, .viewer-arrow {
   display: grid; place-items: center; color: var(--text); background: var(--surface);
-  border: 1px solid var(--line); cursor: pointer;
+  border: 1px solid var(--line); cursor: pointer; font-family: Arial, sans-serif;
 }
 .viewer-close { width: 40px; height: 40px; font-size: 24px; }
 .artwork-viewer-stage {
