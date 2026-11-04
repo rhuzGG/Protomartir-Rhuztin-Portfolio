@@ -1469,3 +1469,38 @@ button {
   .project-image-track { animation: none; transform: none; }
   .project-marquee { overflow-x: auto; }
 }
+
+/* Keep action icons identical across browsers, including iOS emoji fonts. */
+.button .button-icon {
+  display: block;
+  flex: none;
+  width: 18px;
+  height: 18px;
+}
+
+/* Stable mobile artwork previews: load eagerly and show the complete set. */
+@media (max-width: 700px) {
+  .project-image-track {
+    display: grid;
+    width: 100%;
+    height: 100%;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    animation: none;
+    transform: none;
+  }
+
+  .project-marquee-item[data-marquee-clone] {
+    display: none;
+  }
+
+  .project-marquee-item {
+    width: auto;
+    min-width: 0;
+    min-height: 0;
+    height: auto;
+    aspect-ratio: auto;
+    margin: 0;
+  }
+}
