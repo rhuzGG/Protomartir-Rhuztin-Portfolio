@@ -122,7 +122,7 @@
       .map((project) => {
         const color = escapeHtml(project.color || '#e34224');
         const projectLink = project.projectUrl
-          ? `<a class="project-link" href="${escapeHtml(project.projectUrl)}" target="_blank" rel="noopener">Project â†—</a>`
+          ? `<a class="project-link" href="${escapeHtml(project.projectUrl)}" target="_blank" rel="noopener">Project &#8599;</a>`
           : '';
         const projectTags = [
           ...(project.keywords || []),
@@ -165,7 +165,7 @@
               style="--art-color: ${color}; --art-bg: color-mix(in srgb, ${color} 12%, var(--bg))"
             >
               ${artwork}
-              <span class="project-art-label">${escapeHtml(project.activity)} Â· ${escapeHtml(project.term)}</span>
+              <span class="project-art-label">${escapeHtml(project.activity)} &middot; ${escapeHtml(project.term)}</span>
               ${year}
             </div>
             <div class="project-info">
