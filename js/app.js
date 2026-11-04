@@ -143,10 +143,10 @@
         const renderPreview = (image) =>
           image.type === 'pdf'
             ? `<iframe class="project-pdf-preview" src="${escapeHtml(image.src)}#toolbar=0&navpanes=0&scrollbar=0&view=Fit" title="${escapeHtml(image.alt)}" loading="lazy"></iframe>`
-            : `<img class="project-image" src="${escapeHtml(image.src)}" alt="" loading="lazy" decoding="async">`;
+            : `<img class="project-image" src="${escapeHtml(image.src)}" alt="" loading="eager" decoding="async">`;
         const artwork = artworkImages.length > 1
           ? `<div class="project-marquee" aria-hidden="true"><div class="project-image-track">${[...artworkImages, ...artworkImages]
-              .map((image) => `<div class="project-marquee-item">${renderPreview(image)}</div>`)
+              .map((image, imageIndex) => `<div class="project-marquee-item"${imageIndex >= artworkImages.length ? ' data-marquee-clone' : ''}>${renderPreview(image)}</div>`)
               .join('')}</div></div>`
           : artworkImages.length === 1
             ? renderPreview(artworkImages[0])
@@ -327,6 +327,7 @@
     }
   });
 })();
+
 
 
 
