@@ -221,6 +221,22 @@ button {
   font-family: Arial, sans-serif;
   font-weight: 600
 }
+.button-icon,.inline-arrow,.group-icon svg,.cv-icon svg,.viewer-arrow svg {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  flex: none;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vertical-align: -0.12em
+}
+.button-icon { width: 18px; height: 18px; margin-left: 9px }
+.inline-arrow { width: 15px; height: 15px; margin-left: 4px }
+.down-arrow { transform: rotate(0deg) }
+.up-arrow { width: 12px; height: 12px }
 .button:hover {
   transform: translateY(-2px)
 }
@@ -493,7 +509,9 @@ button {
 }
 .group-icon {
   color: var(--red);
-  font: 22px Arial, sans-serif
+  display: inline-flex;
+  width: 22px;
+  height: 22px
 }
 .skill-group h3,.timeline-content h3,.education-card h3 {
   font: 500 22px var(--display);
@@ -820,8 +838,7 @@ button {
   height: 47px;
   border: 1px solid var(--red);
   color: var(--red);
-  font-size: 22px;
-  font-family: Arial, sans-serif
+  font-size: 22px
 }
 .cv-card h3 {
   margin-top: 5px
@@ -887,6 +904,7 @@ button {
   color: var(--red);
   font-family: Arial, sans-serif
 }
+.contact-email .inline-arrow { color: var(--red) }
 .social-links {
   display: flex;
   gap: 21px;
@@ -1451,6 +1469,7 @@ button {
   object-fit: contain; background: #fff;
 }
 .viewer-arrow { width: 42px; height: 42px; border-radius: 50%; font-size: 20px; }
+.viewer-arrow svg { width: 20px; height: 20px; }
 .viewer-arrow:disabled { opacity: .35; cursor: default; }
 .artwork-thumbnails { display: flex; justify-content: center; gap: 10px; padding-top: 16px; }
 .artwork-thumbnail { width: 72px; height: 58px; padding: 3px; background: #fff; border: 1px solid var(--line); cursor: pointer; }

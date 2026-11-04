@@ -122,7 +122,7 @@
       .map((project) => {
         const color = escapeHtml(project.color || '#e34224');
         const projectLink = project.projectUrl
-          ? `<a class="project-link" href="${escapeHtml(project.projectUrl)}" target="_blank" rel="noopener">Project &#8599;</a>`
+          ? `<a class="project-link" href="${escapeHtml(project.projectUrl)}" target="_blank" rel="noopener">Project <svg class="inline-arrow" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 15 15 5M6 5h9v9"/></svg></a>`
           : '';
         const projectTags = [
           ...(project.keywords || []),
