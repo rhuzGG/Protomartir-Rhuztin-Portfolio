@@ -1,24 +1,22 @@
-﻿# Portfolio site
+# Rhuztin Protomartir — Portfolio
 
-A dependency-free, responsive portfolio starter with searchable project data, light/dark themes, accessible navigation, SEO metadata, and a contact email draft.
+A responsive, searchable personal portfolio hosted on GitHub Pages.
 
-## Quick start
+## Open locally
 
-Open `index.html` in a browser, or serve this folder with any static web server. Replace the clearly marked sample content before publishing.
+Open `index.html` in a browser or run a static web server from this folder. The contact form uses EmailJS from the browser and requires its configured public service, template, and public key in `js/app.js`.
 
-## Personalize
+## Project content
 
-1. Update your name, role, biography, location, email, experience, and credentials in `index.html`.
-2. Replace the sample records in `js/projects.js` with real project details. Remove records that do not represent your work; leave missing links blank.
-3. Put your latest CV at `assets/rhuztin-protomartir-cv.pdf`. The hero uses a CSS illustration until you add a genuine profile photo.
-4. Set your real site URL in `index.html`, `robots.txt`, and `sitemap.xml`.
-5. The contact form drafts an email to the address configured in `js/app.js`. The form opens the visitor’s email app; it does not send or store messages on a server.
+- Edit project records in `js/projects.js`.
+- Project artwork and the downloadable CV are in `assets/`.
+- Each project has a detail page in `projects/<project-id>/index.html`.
+- Update `index.html` and the detail pages when personal, education, or experience information changes.
 
-## Project detail pages
+## SEO and deployment
 
-Use `projects/PROJECT_TEMPLATE.md` as the structure for a real project page. The cards are searchable by title, technology, category, project type, and year. Only add live, source, or demo links that exist.
+The site is published at `https://rhuzgg.github.io/Protomartir-Rhuztin-Portfolio/`. Canonical and Open Graph metadata are in the HTML pages; `robots.txt` and `sitemap.xml` use the same public base URL. After publishing changes, check the public pages, project links, CV view/download, contact form, and responsive layouts.
 
-## Publish
+## Contact form
 
-Upload the folder to a static host such as GitHub Pages, Netlify, or Cloudflare Pages. Configure the canonical URL, HTTPS, and domain in the host dashboard. Check the live URL, CV link, contact draft, and responsive layout after deployment. This workspace has no hosting credentials, so the site is prepared for deployment but not published.
-
+The form submits through EmailJS and includes client-side required fields, length limits, and a honeypot field. Because the site is static, it does not store submissions in a private server database.

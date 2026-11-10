@@ -1,7 +1,8 @@
-﻿/* Project artwork and descriptions shown by the Projects section. */
+/* Project artwork and descriptions shown by the Projects section. */
 window.PORTFOLIO_PROJECTS = [
   {
     id: 'watermelon-slice',
+    date: 'August 5, 2026', year: '2026', role: 'Illustrator', status: 'Completed',
     name: 'Watermelon Slice',
     term: 'Prelim',
     activity: 'Activity 1',
@@ -25,6 +26,7 @@ window.PORTFOLIO_PROJECTS = [
   },
   {
     id: 'sora-logo',
+    date: 'August 31, 2026', year: '2026', role: 'Logo Designer', status: 'Completed',
     name: 'Sora (Logo)',
     term: 'Prelim',
     activity: 'Activity 2',
@@ -53,6 +55,7 @@ window.PORTFOLIO_PROJECTS = [
   },
   {
     id: 'urban-threads',
+    date: 'September 7, 2026', year: '2026', role: 'Graphic Designer', status: 'Completed',
     name: 'Urban Threads',
     term: 'Midterm',
     activity: 'Activity 4',
@@ -81,6 +84,7 @@ window.PORTFOLIO_PROJECTS = [
   },
   {
     id: 'nike-typography-poster',
+    date: 'September 18, 2026', year: '2026', role: 'Graphic Designer', status: 'Completed',
     name: 'Nike Brand Typography Poster',
     term: 'Midterm',
     activity: 'Activity 5',
@@ -108,6 +112,7 @@ window.PORTFOLIO_PROJECTS = [
   },
   {
     id: 'portfolio-wireframe',
+    date: 'October 26, 2026', year: '2026', role: 'UI/UX Designer', status: 'Completed',
     name: 'Portfolio Wireframe',
     term: 'Final',
     activity: 'Portfolio Design',

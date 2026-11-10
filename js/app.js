@@ -1,4 +1,4 @@
-﻿(() => {
+(() => {
   const root = document.documentElement;
   const menu = document.querySelector('.menu-toggle');
   const nav = document.querySelector('.nav');
@@ -49,12 +49,15 @@
 
   const projectGrid = document.getElementById('project-grid');
   const projectFilters = document.getElementById('project-filters');
+  const categoryFilters = document.getElementById('category-filters');
   const projectSearch = document.getElementById('project-search');
   const resultCount = document.getElementById('result-count');
   const emptyState = document.getElementById('empty-state');
   const projects = window.PORTFOLIO_PROJECTS || [];
   const terms = ['All', 'Prelim', 'Midterm', 'Final'];
   let activeTerm = 'All';
+  const categories = [...new Set(projects.map((project) => project.category).filter(Boolean))].sort();
+  let activeCategory = 'All';
 
   terms.forEach((term) => {
     const button = document.createElement('button');
@@ -76,6 +79,26 @@
     projectFilters.append(button);
   });
 
+  ['All', ...categories].forEach((category) => {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'filter-button';
+    button.textContent = category === 'All' ? 'All categories' : category;
+    button.setAttribute('aria-pressed', String(category === activeCategory));
+
+    button.addEventListener('click', () => {
+      activeCategory = category;
+
+      categoryFilters.querySelectorAll('button').forEach((filter) => {
+        filter.setAttribute('aria-pressed', String(filter === button));
+      });
+
+      renderProjects();
+    });
+
+    categoryFilters.append(button);
+  });
+
   function escapeHtml(value) {
     const replacements = {
       '&': '&amp;',
@@ -94,6 +117,7 @@
     const searchTerm = projectSearch.value.trim().toLowerCase();
     const matchingProjects = projects.filter((project) => {
       const matchesTerm = activeTerm === 'All' || project.term === activeTerm;
+      const matchesCategory = activeCategory === 'All' || project.category === activeCategory;
       const searchableText = [
         project.name,
         project.term,
@@ -101,7 +125,9 @@
         project.category,
         project.type,
         project.year,
+        project.date,
         project.role,
+        project.status,
         project.description,
         project.overview,
         project.problem,
@@ -115,7 +141,7 @@
         .join(' ')
         .toLowerCase();
 
-      return matchesTerm && searchableText.includes(searchTerm);
+      return matchesTerm && matchesCategory && searchableText.includes(searchTerm);
     });
 
     projectGrid.innerHTML = matchingProjects
@@ -143,7 +169,7 @@
         const renderPreview = (image) =>
           image.type === 'pdf'
             ? `<iframe class="project-pdf-preview" src="${escapeHtml(image.src)}#toolbar=0&navpanes=0&scrollbar=0&view=Fit" title="${escapeHtml(image.alt)}" loading="lazy"></iframe>`
-            : `<img class="project-image" src="${escapeHtml(image.src)}" alt="" loading="eager" decoding="async">`;
+            : `<img class="project-image" src="${escapeHtml(image.src)}" alt="" loading="lazy" decoding="async">`;
         const artwork = artworkImages.length > 1
           ? `<div class="project-marquee" aria-hidden="true"><div class="project-image-track">${[...artworkImages, ...artworkImages]
               .map((image, imageIndex) => `<div class="project-marquee-item"${imageIndex >= artworkImages.length ? ' data-marquee-clone' : ''}>${renderPreview(image)}</div>`)
@@ -157,6 +183,8 @@
         const year = project.year
           ? `<span class="project-year">${escapeHtml(project.year)}</span>`
           : '';
+        const projectFacts = `<div class="project-facts"><span><b>DATE</b>${escapeHtml(project.date || project.year || 'Date not listed')}</span><span><b>ROLE</b>${escapeHtml(project.role || 'Creator')}</span><span><b>STATUS</b>${escapeHtml(project.status || 'Completed')}</span></div>`;
+        const detailLink = `<a class="project-link project-detail-link" href="projects/${escapeHtml(project.id)}/index.html">View Project <svg class="inline-arrow" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 15 15 5M6 5h9v9"/></svg></a>`;
 
         return `
           <article class="project-card">
@@ -176,9 +204,10 @@
               <h3>${escapeHtml(project.name)}</h3>
               <p>${escapeHtml(project.description)}</p>
               ${projectTools}
+              ${projectFacts}
               <div class="project-foot">
                 <div class="tags">${projectTags}</div>
-                ${projectLink}
+                ${projectLink}${detailLink}
               </div>
             </div>
             ${viewTrigger}
