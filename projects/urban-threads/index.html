@@ -14,11 +14,23 @@
   <meta name="theme-color" content="#101010">
   <link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../../css/styles.css">
+  <script>
+    try {
+      document.documentElement.dataset.theme =
+        localStorage.getItem('portfolio-theme') || 'dark';
+    } catch (error) {
+      // Storage may be unavailable in private browsing contexts.
+    }
+  </script>
+  <script src="../../js/theme.js" defer></script>
 </head>
 <body>
   <header class="project-detail-nav">
     <a class="brand" href="../../index.html#home" aria-label="Rhuztin, home"><span class="brand-mark brand-wordmark"><span class="brand-orange">RHUZ</span><span class="brand-white">TIN</span></span></a>
-    <a href="../../index.html#projects">Back to projects</a>
+    <div class="project-detail-actions">
+      <a href="../../index.html#projects">Back to projects</a>
+      <button class="theme-toggle" type="button" aria-label="Switch to light mode" title="Switch theme"><span class="theme-icon" aria-hidden="true">&#9788;</span></button>
+    </div>
   </header>
   <main class="project-detail section-wrap">
     <header class="project-detail-heading">

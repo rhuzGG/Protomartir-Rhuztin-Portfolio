@@ -1641,6 +1641,7 @@ button {
 .project-facts b { color: var(--red); font-size: 8px; font-weight: 400; letter-spacing: .7px }
 .project-detail { padding-top: clamp(42px, 8vw, 90px); padding-bottom: 72px }
 .project-detail-nav { display: flex; justify-content: space-between; align-items: center; gap: 20px; padding: 18px var(--pad); border-bottom: 1px solid var(--line) }
+.project-detail-actions { display: flex; align-items: center; gap: 16px }
 .project-detail-nav .brand { font: 10px var(--mono); letter-spacing: 1px }
 .project-detail-nav a:last-child { color: var(--red); font: 10px var(--mono) }
 .project-detail-heading { max-width: 850px; margin-bottom: 34px }
